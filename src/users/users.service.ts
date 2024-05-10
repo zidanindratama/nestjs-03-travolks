@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryUsersDto } from './dtos/query-users.dto';
 import { Prisma } from '@prisma/client';
+import { QueryUsersDto } from './dtos/query-users.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
@@ -86,9 +86,14 @@ export class UsersService {
     });
   }
 
-  createUser(createUserData: Prisma.UserCreateInput) {
-    return this.prismaService.user.create({
-      data: createUserData,
+  async createUser(createUserData: Prisma.UserCreateInput) {
+    const user = await this.prismaService.user.create({
+      data: {
+        ...createUserData,
+        profile: {
+          create: {},
+        },
+      },
       select: {
         id: true,
         role: true,
@@ -105,6 +110,8 @@ export class UsersService {
         },
       },
     });
+
+    return user;
   }
 
   updateUserById(id: string, updateUserData: Prisma.UserUpdateInput) {

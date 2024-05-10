@@ -1,6 +1,6 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { Roles } from '../enums/roles.enum';
-import { Gender } from '../enums/gender.enum';
+import { Gender } from '../../profile/enums/gender.enum';
 
 export class QueryUsersDto {
   @IsEnum(Roles)

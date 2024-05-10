@@ -28,10 +28,10 @@ model User {
 model Profile {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   gender      Gender   @default(MALE)
-  fullname    String
-  address     String
-  phoneNumber String
-  image       String
+  fullname    String?
+  address     String?
+  phoneNumber String?
+  image       String?
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String   @unique @db.ObjectId
   createdAt   DateTime @default(now())

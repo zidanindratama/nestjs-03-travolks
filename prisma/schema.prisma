@@ -40,6 +40,40 @@ model Profile {
   @@map("profile")
 }
 
+model Category {
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  name      String               @unique
+  slug      String?              @unique
+  posts     CategoriesOnPlaces[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@map("categories")
+}
+
+model Place {
+  id         String               @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  slug       String?
+  longitude  String
+  latitude   String
+  categories CategoriesOnPlaces[]
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+
+  @@map("places")
+}
+
+model CategoriesOnPlaces {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  place      Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  placeId    String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String   @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 enum Roles {
   ADMINISTRATOR
   TOUR_GUIDE

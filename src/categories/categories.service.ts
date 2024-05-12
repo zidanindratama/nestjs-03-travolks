@@ -36,7 +36,14 @@ export class CategoriesService {
       take,
     });
 
-    return categories;
+    const categoriesCount = await this.prismaService.category.count();
+
+    return {
+      categories,
+      meta: {
+        count: categoriesCount,
+      },
+    };
   }
 
   getCategoryBySlug(slug: string) {

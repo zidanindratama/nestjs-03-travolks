@@ -19,6 +19,7 @@ model User {
   email     String   @unique
   password  String
   profile   Profile?
+  Place     Place[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -41,30 +42,56 @@ model Profile {
 }
 
 model Category {
-  id        String               @id @default(auto()) @map("_id") @db.ObjectId
-  name      String               @unique
-  slug      String?              @unique
-  posts     CategoriesOnPlaces[]
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
+  id        String              @id @default(auto()) @map("_id") @db.ObjectId
+  name      String              @unique
+  slug      String?             @unique
+  posts     CategoriesOnPlace[]
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
 
   @@map("categories")
 }
 
 model Place {
-  id         String               @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  slug       String?
-  longitude  String
-  latitude   String
-  categories CategoriesOnPlaces[]
-  createdAt  DateTime             @default(now())
-  updatedAt  DateTime             @updatedAt
+  id          String              @id @default(auto()) @map("_id") @db.ObjectId
+  tourGuideId String              @db.ObjectId
+  tourGuide   User?               @relation(fields: [tourGuideId], references: [id], onDelete: Cascade)
+  name        String              @unique
+  slug        String?
+  address     String
+  longitude   String
+  latitude    String
+  categories  CategoriesOnPlace[]
+  images      imagesOnPlace[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
 
   @@map("places")
 }
 
-model CategoriesOnPlaces {
+model PlaceImages {
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  image     String
+  place     imagesOnPlace[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@map("placeImages")
+}
+
+model imagesOnPlace {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  place        Place       @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  placeId      String      @db.ObjectId
+  image        PlaceImages @relation(fields: [placeImageId], references: [id], onDelete: Cascade)
+  placeImageId String      @db.ObjectId
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("imagesOnPlace")
+}
+
+model CategoriesOnPlace {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   place      Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
   placeId    String   @db.ObjectId
@@ -72,6 +99,8 @@ model CategoriesOnPlaces {
   categoryId String   @db.ObjectId
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@map("categoriesOnPlace")
 }
 
 enum Roles {

@@ -8,9 +8,21 @@ import { ProfileModule } from './profile/profile.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CategoriesModule } from './categories/categories.module';
 import { PlacesModule } from './places/places.module';
+import { CategoriesOnPlaceModule } from './categories-on-place/categories-on-place.module';
+import { ImagesOnPlaceModule } from './images-on-place/images-on-place.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, ProfileModule, CloudinaryModule, CategoriesModule, PlacesModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    AuthModule,
+    ProfileModule,
+    CloudinaryModule,
+    CategoriesModule,
+    PlacesModule,
+    CategoriesOnPlaceModule,
+    ImagesOnPlaceModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

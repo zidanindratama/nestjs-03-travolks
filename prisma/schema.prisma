@@ -59,6 +59,7 @@ model Place {
   name        String              @unique
   slug        String?
   address     String
+  description String
   longitude   String
   latitude    String
   categories  CategoriesOnPlace[]

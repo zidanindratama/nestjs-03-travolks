@@ -10,6 +10,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { PlacesModule } from './places/places.module';
 import { CategoriesOnPlaceModule } from './categories-on-place/categories-on-place.module';
 import { ImagesOnPlaceModule } from './images-on-place/images-on-place.module';
+import { TripsModule } from './trips/trips.module';
+import { PlacesOnTripModule } from './places-on-trip/places-on-trip.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ImagesOnPlaceModule } from './images-on-place/images-on-place.module';
     PlacesModule,
     CategoriesOnPlaceModule,
     ImagesOnPlaceModule,
+    TripsModule,
+    PlacesOnTripModule,
   ],
   controllers: [AppController],
   providers: [AppService],

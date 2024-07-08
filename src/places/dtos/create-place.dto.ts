@@ -2,9 +2,6 @@ import { IsString } from 'class-validator';
 
 export class CreatePlaceDto {
   @IsString()
-  tourGuideId: string;
-
-  @IsString()
   name: string;
 
   @IsString()

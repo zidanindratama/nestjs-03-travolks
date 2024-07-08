@@ -1,23 +1,19 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class UpdatePlaceDto {
-  @IsString()
+export class QueryTripsDto {
   @IsOptional()
+  @IsString()
   name?: string;
 
-  @IsString()
   @IsOptional()
-  longitude?: string;
+  @IsString()
+  slug?: string;
 
   @IsString()
   @IsOptional()
-  latitude?: string;
+  pgNum?: string;
 
   @IsString()
   @IsOptional()
-  address?;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
+  pgSize?: string;
 }

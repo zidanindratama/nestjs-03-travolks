@@ -37,13 +37,13 @@ export class AuthController {
 
     // FIX LATER
     if (accessToken && refreshToken)
-      response.cookie('refreshToken', refreshToken, {
+      response.cookie('refreshTokenServer', refreshToken, {
         sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
         secure: process.env.NODE_ENV !== 'development',
         httpOnly: true,
       });
 
-    return { ...user, access_token: accessToken };
+    return { ...user, access_token: accessToken, refresh_token: refreshToken };
   }
 
   @Post('signin')
@@ -60,18 +60,18 @@ export class AuthController {
 
     // FIX LATER
     if (accessToken && refreshToken)
-      response.cookie('refreshToken', refreshToken, {
+      response.cookie('refreshTokenServer', refreshToken, {
         sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
         secure: process.env.NODE_ENV !== 'development',
         httpOnly: true,
       });
 
-    return { ...user, access_token: accessToken };
+    return { ...user, access_token: accessToken, refresh_token: refreshToken };
   }
 
   @Delete('logout')
   logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('refreshToken');
+    response.clearCookie('refreshTokenServer');
 
     return this.authService.logout();
   }

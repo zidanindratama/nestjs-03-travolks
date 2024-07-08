@@ -32,21 +32,6 @@ export class PlacesService {
         description: true,
         longitude: true,
         latitude: true,
-        tourGuide: {
-          select: {
-            email: true,
-            profile: {
-              select: {
-                id: true,
-                gender: true,
-                fullname: true,
-                address: true,
-                phoneNumber: true,
-                image: true,
-              },
-            },
-          },
-        },
         categories: {
           select: {
             category: {
@@ -74,8 +59,6 @@ export class PlacesService {
       description: place.description,
       longitude: place.longitude,
       latitude: place.latitude,
-      tourGuideEmail: place.tourGuide.email,
-      tourGuideProfile: place.tourGuide.profile,
       categories: place.categories.map((category) => ({
         name: category.category.name,
         slug: category.category.slug,
@@ -106,21 +89,6 @@ export class PlacesService {
         description: true,
         longitude: true,
         latitude: true,
-        tourGuide: {
-          select: {
-            email: true,
-            profile: {
-              select: {
-                id: true,
-                gender: true,
-                fullname: true,
-                address: true,
-                phoneNumber: true,
-                image: true,
-              },
-            },
-          },
-        },
         categories: {
           select: {
             category: {
@@ -149,8 +117,6 @@ export class PlacesService {
       description: place.description,
       longitude: place.longitude,
       latitude: place.latitude,
-      tourGuideEmail: place.tourGuide.email,
-      tourGuideProfile: place.tourGuide.profile,
       categories: place.categories.map((category) => ({
         name: category.category.name,
         slug: category.category.slug,
@@ -171,7 +137,6 @@ export class PlacesService {
 
     const place = await this.prismaService.place.create({
       data: {
-        tourGuideId: createPlaceData.tourGuideId,
         name: createPlaceData.name,
         slug: slugify(createPlaceData.name),
         description: createPlaceData.description,
@@ -187,21 +152,6 @@ export class PlacesService {
         description: true,
         longitude: true,
         latitude: true,
-        tourGuide: {
-          select: {
-            email: true,
-            profile: {
-              select: {
-                id: true,
-                gender: true,
-                fullname: true,
-                address: true,
-                phoneNumber: true,
-                image: true,
-              },
-            },
-          },
-        },
         categories: {
           select: {
             category: {
@@ -229,8 +179,6 @@ export class PlacesService {
       description: place.description,
       longitude: place.longitude,
       latitude: place.latitude,
-      tourGuideEmail: place.tourGuide.email,
-      tourGuideProfile: place.tourGuide.profile,
       categories: place.categories.map((category) => ({
         id: category.category.id,
         name: category.category.name,
@@ -267,21 +215,6 @@ export class PlacesService {
         description: true,
         longitude: true,
         latitude: true,
-        tourGuide: {
-          select: {
-            email: true,
-            profile: {
-              select: {
-                id: true,
-                gender: true,
-                fullname: true,
-                address: true,
-                phoneNumber: true,
-                image: true,
-              },
-            },
-          },
-        },
         categories: {
           select: {
             category: {
@@ -309,8 +242,6 @@ export class PlacesService {
       description: updatedPlace.description,
       longitude: updatedPlace.longitude,
       latitude: updatedPlace.latitude,
-      tourGuideEmail: updatedPlace.tourGuide.email,
-      tourGuideProfile: updatedPlace.tourGuide.profile,
       categories: updatedPlace.categories.map((category) => ({
         id: category.category.id,
         name: category.category.name,

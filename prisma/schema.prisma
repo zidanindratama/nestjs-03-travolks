@@ -19,7 +19,7 @@ model User {
   email     String   @unique
   password  String
   profile   Profile?
-  Place     Place[]
+  trip      Trip[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -54,8 +54,6 @@ model Category {
 
 model Place {
   id          String              @id @default(auto()) @map("_id") @db.ObjectId
-  tourGuideId String              @db.ObjectId
-  tourGuide   User?               @relation(fields: [tourGuideId], references: [id], onDelete: Cascade)
   name        String              @unique
   slug        String?
   address     String
@@ -64,6 +62,7 @@ model Place {
   latitude    String
   categories  CategoriesOnPlace[]
   images      imagesOnPlace[]
+  trips       PlacesOnTrip[]
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
 
@@ -102,6 +101,36 @@ model CategoriesOnPlace {
   updatedAt  DateTime @updatedAt
 
   @@map("categoriesOnPlace")
+}
+
+model Trip {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String         @unique
+  slug          String?        @unique
+  image         String?
+  description   String
+  price         Float
+  startRegister DateTime
+  endRegister   DateTime
+  startTrip     DateTime
+  endTrip       DateTime
+  places        PlacesOnTrip[]
+  tourGuideId   String         @map("tourGuide_id") @db.ObjectId
+  tourGuide     User           @relation(fields: [tourGuideId], references: [id], onDelete: Cascade)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@map("trips")
+}
+
+model PlacesOnTrip {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  place   Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  placeId String @db.ObjectId
+  trip    Trip   @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  tripId  String @db.ObjectId
+
+  @@map("placesOnTrip")
 }
 
 enum Roles {

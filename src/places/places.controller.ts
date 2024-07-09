@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -17,10 +18,14 @@ import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '../users/enums/roles.enum';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('/protected/places')
 export class PlacesController {
-  constructor(private placesService: PlacesService) {}
+  constructor(
+    private placesService: PlacesService,
+    private prismaService: PrismaService,
+  ) {}
 
   @Get()
   getAllPlaces(@Query() query: QueryPlacesDto) {
@@ -51,8 +56,12 @@ export class PlacesController {
 
   @Roles(RolesEnum.ADMINISTRATOR)
   @UseGuards(AccessTokenGuard, RoleGuard)
-  @Delete('/:id')
-  deletePlaceByPlaceSlug(@Param('slug') slug: string) {
+  @Delete('/:slug')
+  async deletePlaceByPlaceSlug(@Param('slug') slug: string) {
+    const place = await this.prismaService.place.findUnique({
+      where: { slug },
+    });
+    if (!place) throw new HttpException('Trip not found!', 404);
     return this.placesService.deletePlaceByPlaceSlug(slug);
   }
 }

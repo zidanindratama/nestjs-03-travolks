@@ -254,17 +254,9 @@ export class PlacesService {
   }
 
   async deletePlaceByPlaceSlug(slug: string) {
-    const place = await this.prismaService.place.findFirst({
-      where: {
-        slug,
-      },
-    });
-
-    if (!place) throw new HttpException('Place not found!', 404);
-
     await this.prismaService.place.delete({
       where: {
-        id: place.id,
+        slug,
       },
     });
 
